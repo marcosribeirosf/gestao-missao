@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="LayoutPadrao">
+
+<section layout:fragment="conteudo">
+	<div class="container">
+		<div class="panel panel-default" style="margin: 10px">
+			<div class="panel-heading">
+				<h1 class="panel-title">Planos de Embaque Disponíveis</h1>
+			</div>
+
+			<div class="panel-body">
+				<div layout:include="MensagemGeral"></div>
+				<form class="form-inline" method="POST"
+					enctype="multipart/form-data" th:object="${missao}"
+					th:action="@{/missoes}" style="margin: 20px 0">
+					<div layout:include="MensagemErro"></div>
+
+					<input type="hidden" th:field="*{id}" />
+
+					<table>
+
+						<tr>
+							<td>Missao:</td>
+							<td><input type="text" class="form-control"
+								th:field="*{nome}" /></td>
+						</tr>
+						<tr>
+							<td>Data:</td>
+							<td><input type="text" class="form-control" id="data"
+								th:field="*{data}" data-provide="datepicker"
+								data-date-format="dd/mm/yyyy" data-date-language="pt-BR"
+								data-date-autoclose="true" data-date-today-highlight="true"
+								data-date-orientation="bottom" /></td>
+						</tr>
+						<tr>
+							<td>Hora:</td>
+							<td><input type="text" class="form-control"
+								th:field="*{hora}" /></td>
+						</tr>
+						<tr>
+							<td>Qtd. Embarque:</td>
+							<td><input type="text" class="form-control"
+								th:field="*{qtdeMilitares}" /></td>
+						</tr>
+						<tr>
+							<td>Veiculo:</td>
+							<td><input type="text" class="form-control"
+								th:field="*{veiculo}" /></td>
+						</tr>
+						<tr>
+							<td>Mapa:</td>
+							<td><input type="file" name="file" /></td>
+						</tr>
+
+					</table>
+
+					<button type="submit" class="btn btn-primary">Adicionar</button>
+
+				</form>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Mapa</th>
+							<th>Missão</th>
+							<th>Data</th>
+							<th>Hora</th>
+							<th>Qtd Embarque</th>
+							<th>Veiculo</th>
+							<th>Ação</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="f : ${missoes}">
+							<td><a th:href="@{file:///C:/Users\Marcos\Documents\workspace-sts\GestaoMissao\src\main\resources\static\images}+${f.intinerario}" th:text="${f.intinerario}" target="_blank"/></td>
+							<td th:text="${f.nome}"></td>
+							<td th:text="${f.data}"></td>
+							<td th:text="${f.hora}"></td>
+							<td th:text="${f.qtdeMilitares}"></td>
+							<td th:text="${f.veiculo}"></td>
+							<td><a th:href="@{/missoes/alterar/}+${f.id}"
+								class="glyphicon glyphicon-pencil"></a></td>
+							<td><a th:href="@{/missoes/excluir/}+${f.id}"
+								class="glyphicon glyphicon-trash"></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	$('.datepicker').datepicker({
+		format : 'mm/dd/yyyy',
+		startDate : '-3d'
+	});
+</script>
+
+</html>

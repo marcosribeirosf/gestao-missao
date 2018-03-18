@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="LayoutPadrao">
+
+<section layout:fragment="conteudo">
+
+	<div class="panel panel-default" style="margin: 10px">
+		<div class="panel-heading">
+			<h1 class="panel-title">Lista de Militares</h1>
+		</div>
+		<div class="panel-body">
+
+			<div layout:include="MensagemGeral"></div>
+
+			<form class="form-inline" method="POST" th:object="${militar}"
+				th:action="@{/militares}" style="margin: 20px 0">
+				<div layout:include="MensagemErro"></div>
+				<div class="form-group">
+					<input type="hidden" th:field="*{id}" /> 
+					<input type="text" class="form-control" placeholder="Nome" th:field="*{nome}" />
+					<input type="text" class="form-control" placeholder="Niveis" th:field="*{nivel}" />
+					
+					<select class="form-control" name="missao" th:field="*{missao}">
+						<option th:each="m : ${todasMissoes}" th:value="${m.id}" th:text="${m.nome}">
+						</option>
+                    </select>
+					<button type="submit" class="btn btn-primary">Adicionar</button>
+				</div>
+			</form>
+
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Niveis</th>
+						<th>Missão</th>
+						<th colspan="2">Ação</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="c : ${militares}">
+						<td th:text="${c.nome}"></td>
+						<td th:text="${c.nivel}"></td>
+						<td th:text="${c.missao}"></td>
+						<td><a th:href="@{/militares/alterar/}+${c.id}" class="glyphicon glyphicon-pencil"></a></td>
+						<td><a th:href="@{/militares/excluir/}+${c.id}" class="glyphicon glyphicon-trash"></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+</section>
+</html>
